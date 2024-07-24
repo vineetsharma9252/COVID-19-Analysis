@@ -123,7 +123,16 @@ with st.expander("Summary_Table"):
 data1 = px.scatter(filtered_df,x="Confirmed",y="Deaths",size="Deaths")
 data1['layout'].update(title="Relationship between Confirmed Patients and Dead Patients using Scatter plot.",titlefont = dict(size=20),xaxis=dict(title="Confirmed",titlefont=dict(size=19)),yaxis = dict(title="Deaths",titlefont = dict(size=19)))
 st.plotly_chart(data1,use_container_width=True)
-
+st.subheader("Geographical Map of Confirmed Cases")
+fig_geo = px.scatter_geo(filtered_df,
+                         lat='Lat',
+                         lon='Long',
+                         hover_name='Country/Region',
+                         size='Confirmed',
+                         color='Confirmed',
+                         projection='natural earth',
+                         title="Geographical distribution of COVID-19 Confirmed Cases")
+st.plotly_chart(fig_geo, use_container_width=True)
 with st.expander("View Data"):
     st.write(filtered_df.drop(["Lat","Long","month_year", "month"],axis = 1).iloc[:500].style.background_gradient(cmap="Oranges"))
 csv = df.to_csv(index=False).encode("utf-8")
